@@ -1,16 +1,16 @@
 package com.kodilla.testing.shape;
 
 public class Square implements Shape {
-    private double squareSide;
+    private double sizeParameter;
     private String name;
 
-    public Square(String name, double squareSide) {
-        this.squareSide=squareSide;
+    public Square(String name, double sizeParameter) {
+        this.sizeParameter=sizeParameter;
         this.name = name;
     }
 
     public double getSquareSide() {
-        return squareSide;
+        return sizeParameter;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class Square implements Shape {
 
     @Override
     public double getField() {
-        double field = squareSide*squareSide;
+        double field = sizeParameter*sizeParameter;
         return field;
 
     }

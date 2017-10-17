@@ -1,17 +1,17 @@
 package com.kodilla.testing.shape;
 
 public class Circle implements Shape {
-    private double diameter;
+    private double sizeParameter;
     private String name;
     public static double pi=3.14;
 
-    public Circle(String name, double diameter){
+    public Circle(String name, double sizeParameter){
         this.name = name;
-        this.diameter = diameter;
+        this.sizeParameter = sizeParameter;
     }
 
     public double getDiameter() {
-        return diameter;
+        return sizeParameter;
     }
 
     @Override
@@ -21,12 +21,12 @@ public class Circle implements Shape {
 
     @Override
     public double getField() {
-        double field = pi*diameter*diameter;
+        double field = pi*sizeParameter*sizeParameter;
         return field;
     }
 
     @Override
     public String toString() {
-        return name + " " + diameter;
+        return name + " " + sizeParameter;
     }
 }

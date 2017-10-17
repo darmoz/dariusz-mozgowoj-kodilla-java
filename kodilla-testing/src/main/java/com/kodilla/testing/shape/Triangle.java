@@ -1,22 +1,16 @@
 package com.kodilla.testing.shape;
 
 public class Triangle implements Shape {
-    private double height;
-    private double baseLength;
+    private double sizeParameter;
     private String name;
 
-    public double getHeight() {
-        return height;
-    }
-
     public double getBaseLength() {
-        return baseLength;
+        return sizeParameter;
     }
 
-    public Triangle(String name, double height, double baseLength) {
-
-        this.height = height;
-        this.baseLength = baseLength;
+    public Triangle(String name, double sizeParameter) {
+        this.name = name;
+        this.sizeParameter = sizeParameter;
     }
 
     @Override
@@ -26,7 +20,7 @@ public class Triangle implements Shape {
 
     @Override
     public double getField() {
-        double field = (height * baseLength)/2;
+        double field = (sizeParameter * sizeParameter)/4;
         return field;
     }
 }

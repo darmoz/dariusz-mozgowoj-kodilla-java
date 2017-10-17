@@ -7,19 +7,21 @@ import com.kodilla.testing.shape.Triangle;
 
 public class ShapeCollector {
     Shape shape;
-    ArrayList<Shape> shapeList = new ArrayList<>();
+    ArrayList<Shape> shapeList = new ArrayList<Shape>();
 
-    public ShapeCollector(Shape shape){
-        this.shape=shape;
+/*    public ShapeCollector(ArrayList<Shape> shapeList) {
+
+        this.shapeList = shapeList;
+    }*/
+
+    public void addFigure(Shape shape) {
+
+        shapeList.add(shape);
     }
 
-    public void addFigure(Shape shape){
-         shapeList.add(shape);
-    }
-
-    public boolean removeFigure(Shape shape){
+    public boolean removeFigure(Shape shape) {
         boolean result = false;
-        if (shapeList.contains(shape)){
+        if (shapeList.contains(shape)) {
             shapeList.remove(shape);
             result = true;
         }
@@ -27,12 +29,15 @@ public class ShapeCollector {
     }
 
     public Shape getFigure(int n){
-        Shape figure = shapeList.get(n);
-        return figure;
+        Shape result = null;
+        if(shapeList.size() >= n) {
+            Shape figure = shapeList.get(n);
+            result = figure;
+        }
+        return result;
     }
 
-    public String showFigure(){
-        int n = shapeList.indexOf(shape);
+    public String showFigure(int n){
         String figureDescriptor = shapeList.get(n).toString();
         return figureDescriptor;
     }

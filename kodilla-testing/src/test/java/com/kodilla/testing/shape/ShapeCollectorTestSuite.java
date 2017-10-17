@@ -5,6 +5,7 @@ import com.kodilla.testing.shape.Circle;
 import com.kodilla.testing.shape.Square;
 import com.kodilla.testing.shape.Triangle;
 import com.kodilla.testing.shape.Shape;
+import java.util.*;
 import org.junit.*;
 
 
@@ -26,48 +27,50 @@ public class ShapeCollectorTestSuite {
         testCounter++;
         System.out.println("Preparing to execute test #" + testCounter);
     }
+
     @Test
     public void testAddFigure() {
         //Given
-        Shape circle = new Circle("circle",5);
-        ShapeCollector collector = new ShapeCollector(circle);
+        Shape circle = new Circle("circle", 5);
+        Shape triangle = new Triangle("triangle", 4);
+        Shape square = new Square("square", 2);
+        ShapeCollector collector = new ShapeCollector();
         //When
         collector.addFigure(circle);
         //Then
         Assert.assertEquals(circle, collector.getFigure(0) );
     }
+
     @Test
     public void testRemoveFigure() {
         //Given
         Shape circle = new Circle("circle", 5);
-        ShapeCollector collector = new ShapeCollector(circle);
+        Shape triangle = new Triangle("triangle", 4);
+        Shape square = new Square("square", 2);
+        ShapeCollector collector = new ShapeCollector();
         collector.addFigure(circle);
+        collector.addFigure(triangle);
+        collector.addFigure(square);
         //When
-        boolean result = collector.removeFigure(circle);
+        boolean result = collector.removeFigure(triangle);
         //Then
         Assert.assertTrue(result);
-        Assert.assertEquals(0, collector.shapeList.size());
+        Assert.assertEquals(2, collector.shapeList.size() );
     }
+
     @Test
     public void testGetFigure() {
         //Given
         Shape circle = new Circle("circle", 5);
-        ShapeCollector collector = new ShapeCollector(circle);
+        Shape triangle = new Triangle("triangle", 4);
+        Shape square = new Square("square", 2);
+        ShapeCollector collector = new ShapeCollector();
         collector.addFigure(circle);
+        collector.addFigure(triangle);
+        collector.addFigure(square);
         //When
-        Shape figure = collector.getFigure(0);
+        Shape result = collector.getFigure(1);
         //Then
-        Assert.assertEquals(circle, figure);
-    }
-    @Test
-    public void testShowFigure() {
-        //Given
-        Shape circle = new Circle("circle", 5);
-        ShapeCollector collector = new ShapeCollector(circle);
-        collector.addFigure(circle);
-        //When
-        String showFigure = collector.showFigure();
-        //Then
-        Assert.assertEquals("circle 5.0", showFigure);
+        Assert.assertEquals(triangle, collector.getFigure(1));
     }
 }
