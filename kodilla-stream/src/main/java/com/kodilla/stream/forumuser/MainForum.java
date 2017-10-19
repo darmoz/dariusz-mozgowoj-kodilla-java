@@ -19,8 +19,11 @@ public class MainForum {
                 .collect(Collectors.toMap(ForumUser::getId, havePost -> havePost));
 
         System.out.println("# entry :" + par.size());
-        par.entrySet().stream()
-                .map(entry -> entry.getKey() + ":" + entry.getValue().getUserName())
-                .forEach(System.out::println);
+        String display = par.entrySet().stream()
+                .map(entry -> entry.getValue())
+                .map(ForumUser::toString)
+                .collect(Collectors.joining(",\n","",""));
+
+        System.out.println(display);
     }
 }

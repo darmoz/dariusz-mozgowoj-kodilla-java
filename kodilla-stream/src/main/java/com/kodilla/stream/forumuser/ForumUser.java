@@ -10,7 +10,7 @@ public final class ForumUser {
     private final LocalDate birthDay;
     private final int quantityOfPosts;
 
-    public ForumUser(int id, String userName, char gender, LocalDate birthDay, int quantityOfPosts) {
+    public ForumUser(final int id, final String userName, final char gender, final LocalDate birthDay, final int quantityOfPosts) {
         this.id = id;
         this.userName = userName;
         this.gender = gender;
@@ -36,5 +36,16 @@ public final class ForumUser {
 
     public int getQuantityOfPosts() {
         return quantityOfPosts;
+    }
+
+    @Override
+    public String toString() {
+        return "ForumUser{" +
+                "id=" + id +
+                ", userName='" + userName + '\'' +
+                ", gender=" + gender +
+                ", birthDay=" + birthDay +
+                ", quantityOfPosts=" + quantityOfPosts +
+                '}';
     }
 }
