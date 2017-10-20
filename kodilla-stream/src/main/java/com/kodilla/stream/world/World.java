@@ -30,9 +30,9 @@ public final class World {
     public int hashCode() {
         return continents.hashCode();
     }
-    BigDecimal totalPeople;
+
     public BigDecimal getPeopleQuantity() {
-        return totalPeople = continents.stream()
+        return continents.stream()
                 .flatMap(people -> people.getCountry().stream())
                 .map(Country::getPeopleQuantity)
                 .reduce(BigDecimal.ZERO, (sum, current) -> sum = sum.add(current));
