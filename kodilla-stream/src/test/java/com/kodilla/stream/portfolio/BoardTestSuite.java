@@ -108,20 +108,16 @@ public class BoardTestSuite {
         List<TasksList> workTaskList = new ArrayList<>();
         workTaskList.add(new TasksList("In progress"));
 
-        // OD TĄD MOJE WYPOCINY
-        long countResult = project.getTaskLists().stream()
+        double averageResult = project.getTaskLists().stream()
                 .filter(workTaskList::contains)
                 .flatMap(fm->fm.getTasks().stream())
-                .map(m->m.getCreated().until(LocalDate.now(), ChronoUnit.DAYS))
-                .count();
-
-        List<TasksList> theList = project.getTaskLists();
-
-       IntStream sumResult = IntStream.range(0,1)
-               .map(m-> IntStream.range(0, theList.size()))
-               .flatMap(n->n.)
+                .mapToLong(mtl->mtl.getCreated().until(mtl.getDeadline(), ChronoUnit.DAYS))
+                .average()
+                .getAsDouble();
 
         //Then
+
+        Assert.assertEquals(18.33, averageResult, 0.01);
 
 
 
