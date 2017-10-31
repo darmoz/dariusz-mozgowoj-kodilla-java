@@ -12,13 +12,13 @@ public class FlightFinder {
         listOfAirports.put("WAR", true);
         listOfAirports.put("POZ", false);
 
-        if(!(listOfAirports.get(flight.getArrivalAirport())
-                && listOfAirports.get(flight.getDepartureAirport()))) {
-            throw new RouteNotFoundException();
+        if(listOfAirports.get(flight.getArrivalAirport())
+                && listOfAirports.get(flight.getDepartureAirport())) {
+                    System.out.println("Flight from " + flight.getDepartureAirport()+
+                    " to " + flight.getArrivalAirport() + " has been found!");
         }
         else {
-            System.out.println("Flight from " + flight.getDepartureAirport()+
-                    " to " + flight.getArrivalAirport() + " has been found!");
+            throw new RouteNotFoundException();
         }
     }
     public static void main (String[] args) {
