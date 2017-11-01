@@ -22,6 +22,8 @@ public class OrderingProcessor {
         if(isOrdered) {
             informationService.inform(orderRequest.getUser());
             orderRepository.createOrder(orderRequest.getUser(), orderRequest.getProductType(), orderRequest.getTransactionDate());
+            QueueController theQueue = new QueueController();
+            theQueue.addToQueue();
             return new OrderDto(orderRequest.getUser(), true);
         } else {
             return new OrderDto(orderRequest.getUser(), false);

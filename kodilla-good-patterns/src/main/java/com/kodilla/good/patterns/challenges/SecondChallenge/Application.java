@@ -8,7 +8,6 @@ public class Application {
 
         OrderRequestRetriever orderRequestRetriever = new OrderRequestRetriever();
         OrderRequest orderRequest = orderRequestRetriever.retrieve();
-
         OrderingProcessor orderingProcessor = new OrderingProcessor(new MailService(),new ProductOrderService(), new ProductRepositoryService());
         orderingProcessor.process(orderRequest);
     }

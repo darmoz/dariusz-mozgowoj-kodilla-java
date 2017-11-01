@@ -11,4 +11,6 @@ public class ProductType {
     public String getType() {
         return type;
     }
+
+
 }

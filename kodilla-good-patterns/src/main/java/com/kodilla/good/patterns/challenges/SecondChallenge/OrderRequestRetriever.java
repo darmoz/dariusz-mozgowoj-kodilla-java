@@ -8,10 +8,11 @@ public class OrderRequestRetriever {
 
         User user = new User("Dariusz", "Mozgowoj");
 
-        ProductType productType = new ProductType("Gra");
+        ProductType productType = new ProductType("Game");
 
         LocalDate transactionDate = LocalDate.now();
 
-        return new OrderRequest(user, productType, transactionDate);
+        OrderRequest order = new OrderRequest(user, productType, transactionDate);
+        return order;
     }
 }
