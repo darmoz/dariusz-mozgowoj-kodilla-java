@@ -1,4 +1,4 @@
-package com.kodilla.good.patterns.challenges.FligthFinder;
+package com.kodilla.good.patterns.challenges.FlightFinder;
 
 import java.util.HashSet;
 

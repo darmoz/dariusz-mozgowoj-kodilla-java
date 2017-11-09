@@ -1,8 +1,4 @@
-package com.kodilla.good.patterns.challenges.FligthFinder;
-
-import javax.sound.midi.Soundbank;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+package com.kodilla.good.patterns.challenges.FlightFinder;
 
 public class Application {
 

@@ -1,7 +1,6 @@
-package com.kodilla.good.patterns.challenges.FligthFinder;
+package com.kodilla.good.patterns.challenges.FlightFinder;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class FlightSearchServiceVia implements FlightSearchService {
