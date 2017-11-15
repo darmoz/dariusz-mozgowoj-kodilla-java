@@ -14,7 +14,7 @@ public class LibraryTestSuite {
         IntStream.iterate(1, n-> n+1)
                 .limit(5)
                 .forEach(n->library.getBooks().add(new Book("title"+n,"author"+n,
-                        LocalDate.of(2007, 04,01+n))));
+                        LocalDate.of(2007-n, 04+n,01+n))));
         //when
         Library clonedLibrary = null;
         try {
