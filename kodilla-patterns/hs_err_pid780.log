@@ -1,0 +1,55 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 32744 bytes for ChunkPool::allocate
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   In 32 bit mode, the process size limit was hit
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Use 64 bit Java on a 64 bit OS
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (allocation.cpp:273), pid=780, tid=0x0000000000001e0c
+#
+# JRE version: Java(TM) SE Runtime Environment (8.0_144-b01) (build 1.8.0_144-b01)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (25.144-b01 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000000018b67800):  JavaThread "C2 CompilerThread0" daemon [_thread_in_vm, id=7692, stack(0x0000000019050000,0x0000000019150000)]
+
+Stack: [0x0000000019050000,0x0000000019150000]
+[error occurred during error reporting (printing stack bounds), id 0xc0000005]
+
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0000000018b8e800 JavaThread "C2 CompilerThread1" daemon [_thread_blocked, id=7316, stack(0x0000000019150000,0x0000000019250000)]
+=>0x0000000018b67800 JavaThread "C2 CompilerThread0" daemon [_thread_in_vm, id=7692, stack(0x0000000019050000,0x0000000019150000)]
+  0x000000001756c800 JavaThread "Monitor Ctrl-Break" daemon [_thread_in_vm, id=6188, stack(0x0000000018f50000,0x0000000019050000)]
+  0x0000000017518000 JavaThread "Attach Listener" daemon [_thread_blocked, id=3056, stack(0x0000000018a50000,0x0000000018b50000)]
+  0x0000000017516800 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=6580, stack(0x0000000018950000,0x0000000018a50000)]
+  0x00000000029cd800 JavaThread "Finalizer" daemon [_thread_blocked, id=900, stack(0x0000000018760000,0x0000000018860000)]
+  0x00000000029c2000 JavaThread "Reference Handler" daemon [_thread_blocked, id=7740, stack(0x0000000018660000,0x0000000018760000)]
+  0x00000000028d2800 JavaThread "main" [_thread_in_native, id=3984, stack(0x0000000002650000,0x0000000002750000)]
+
+Other Threads:
+  0x00000000174d7000 VMThread [stack: 0x0000000018560000,0x0000000018660000] [id=3560]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x000000000264d9b0] Threads_lock - owner thread: 0x00000000028d2800
+
+Heap:
