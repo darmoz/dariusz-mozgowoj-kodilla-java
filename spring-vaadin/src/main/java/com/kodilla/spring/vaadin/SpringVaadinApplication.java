@@ -8,8 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringVaadinApplication {
 
 	public static void main(String[] args) {
-		BookingList bookingList = new BookingList();
 		SpringApplication.run(SpringVaadinApplication.class, args);
-		System.out.println(bookingList.getEntry(0));
 	}
 }

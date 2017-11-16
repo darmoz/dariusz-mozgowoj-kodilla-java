@@ -66,5 +66,6 @@ public class CustomerUI extends UI {
         phoneNumber.clear();
         });
         sendRequest.addClickListener(click -> {Notification.show("Request has been sent!");});
+        System.out.println(bookingList.getEntry(0));
     }
 }
