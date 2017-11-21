@@ -1,8 +1,8 @@
 package com.kodilla.spring.vaadin.example1;
 
 public class Customer {
-    String firstName;
-    String lastName;
+    private String firstName;
+    private String lastName;
     String email;
     String phoneNumber;
 
@@ -28,4 +28,5 @@ public class Customer {
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
 }

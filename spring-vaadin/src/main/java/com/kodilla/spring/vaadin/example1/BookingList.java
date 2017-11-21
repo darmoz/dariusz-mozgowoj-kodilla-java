@@ -7,11 +7,14 @@ import java.util.List;
 
 @SpringComponent
 public class BookingList {
+    private static BookingList bookingListInstance = null;
+    List<BookingOrders> orderList = new ArrayList<>();;
 
-    List<BookingOrders> orderList;
-
-    public BookingList() {
-        orderList = new ArrayList<>();
+    public static BookingList getInstance() {
+        if(bookingListInstance==null) {
+            bookingListInstance = new BookingList();
+        }
+        return bookingListInstance;
     }
 
     public List getEntry(int i) {

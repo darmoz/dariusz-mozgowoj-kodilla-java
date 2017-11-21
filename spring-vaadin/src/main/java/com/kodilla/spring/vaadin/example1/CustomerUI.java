@@ -1,27 +1,40 @@
 package com.kodilla.spring.vaadin.example1;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 @SpringUI
 @Theme("valo")
 public class CustomerUI extends UI {
 
     private VerticalLayout layout;
+    private HorizontalLayout horizontalLayout;
+    private TextField firstName;
+    private TextField lastName;
+    private TextField email;
+    private TextField phoneNumber;
+    private DateField bookFrom;
+    private DateField bookTo;
+    private Button sendRequest;
 
     @Autowired
-    BookingList bookingList;
+    private BookingList bookingList;
+    private BookingOrders bookingOrders;
+    private  Customer customer;
 
     @Override
     protected void init(VaadinRequest request) {
         setupLayout();
         addHeader();
-        addForm();
+        addCustomer();
+        addBookingDate();
+        addRequestButton();
+        requestButtonActions();
     }
 
     private void setupLayout() {
@@ -36,36 +49,62 @@ public class CustomerUI extends UI {
         layout.addComponent(header);
     }
 
-    public final void addForm() {
-        TextField firstName = new TextField("First Name");
-        TextField lastName = new TextField("Last Name");
-        TextField email = new TextField("E-mail");
-        TextField phoneNumber = new TextField("Phone number");
+    public final void addCustomer() {
+        firstName = new TextField("First Name");
+        lastName = new TextField("Last Name");
+        email = new TextField("E-mail");
+        phoneNumber = new TextField("Phone number");
         layout.addComponents(firstName, lastName, email, phoneNumber);
-        HorizontalLayout horizontalLayout = new HorizontalLayout();
+    }
+
+    public final void addBookingDate() {
+        horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSpacing(true);
-        //horizontalLayout.setWidth("35%");
-        //for this case default value of above (commented) is fine
-        DateField bookFrom = new DateField("From:");
-        DateField bookTo = new DateField("To:");
+        bookFrom = new DateField("From:");
+        bookTo = new DateField("To:");
         horizontalLayout.addComponents(bookFrom, bookTo);
         layout.addComponent(horizontalLayout);
-        Button sendRequest = new Button("Send Request");
+    }
+
+    public final void addRequestButton() {
+        sendRequest = new Button("Send Request");
         layout.addComponent(sendRequest);
         sendRequest.addStyleName(ValoTheme.BUTTON_PRIMARY);
+    }
 
+    public final void requestButtonActions() {
         sendRequest.addClickListener(click -> {
-            bookingList.addEntry(
-            new BookingOrders(new Customer(firstName.getValue(),lastName.getValue(),email.getValue(),
-                    phoneNumber.getValue()), bookFrom.getValue(), bookTo.getValue()));
-        bookFrom.clear();
-        bookTo.clear();
-        firstName.clear();
-        lastName.clear();
-        email.clear();
-        phoneNumber.clear();
+            customer = new Customer(firstName.getValue(),lastName.getValue(),email.getValue(),
+                    phoneNumber.getValue());
+            if(customer.getFirstName().isEmpty())
+                {
+                    Notification.show("What is your name?");
+                } else {
+                        if(customer.getEmail().isEmpty() && customer.getPhoneNumber().isEmpty())
+                            {
+                                Notification.show("Please provide valid communication method");
+                            } else {
+
+                                    bookingList = BookingList.getInstance();
+                                    bookingOrders = new BookingOrders(customer, bookFrom.getValue(),
+                                    bookTo.getValue());
+                                    if(bookingOrders.getBookFrom() == null || bookingOrders.getBookTo() == null
+                                            || bookingOrders.getBookFrom().isAfter(bookingOrders.getBookTo())) {
+                                        Notification.show("Please provide valid dates");
+                                    } else {
+                                        bookingList.addEntry(bookingOrders);
+                                        bookFrom.clear();
+                                        bookTo.clear();
+                                        firstName.clear();
+                                        lastName.clear();
+                                        email.clear();
+                                        phoneNumber.clear();
+                                        Notification.show("Request has been sent!");
+
+                                    }
+                            }
+                        }
         });
-        sendRequest.addClickListener(click -> {Notification.show("Request has been sent!");});
-        System.out.println(bookingList.getEntry(0));
+
     }
 }
