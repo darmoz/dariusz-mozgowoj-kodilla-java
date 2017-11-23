@@ -5,4 +5,5 @@ include 'spring.intro'
 include 'kodilla-spring-intro'
 include 'kodilla-patterns-singelton'
 include 'kodilla-patterns'
+include 'kodilla-jdbc'
 

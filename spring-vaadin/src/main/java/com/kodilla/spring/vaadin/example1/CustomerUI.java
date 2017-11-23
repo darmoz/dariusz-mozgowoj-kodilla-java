@@ -3,6 +3,7 @@ package com.kodilla.spring.vaadin.example1;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.View;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.button.ButtonState;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -70,6 +71,7 @@ public class CustomerUI extends UI {
         sendRequest = new Button("Send Request");
         layout.addComponent(sendRequest);
         sendRequest.addStyleName(ValoTheme.BUTTON_PRIMARY);
+        
     }
 
     public final void requestButtonActions() {
