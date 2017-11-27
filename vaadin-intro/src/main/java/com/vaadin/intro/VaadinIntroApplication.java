@@ -1,13 +1,12 @@
-package com.kodilla.spring.vaadin;
+package com.vaadin.intro;
 
-import com.kodilla.spring.vaadin.example1.BookingList;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringVaadinApplication {
+public class VaadinIntroApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SpringVaadinApplication.class, args);
+		SpringApplication.run(VaadinIntroApplication.class, args);
 	}
 }

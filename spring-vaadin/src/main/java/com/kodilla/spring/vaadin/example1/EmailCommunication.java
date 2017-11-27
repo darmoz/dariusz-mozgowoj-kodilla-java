@@ -1,6 +1,5 @@
 package com.kodilla.spring.vaadin.example1;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;

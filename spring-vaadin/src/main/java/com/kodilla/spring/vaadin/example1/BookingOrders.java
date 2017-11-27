@@ -1,12 +1,15 @@
 package com.kodilla.spring.vaadin.example1;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 
 public class BookingOrders {
 
-    Customer customer;
-    LocalDate bookFrom;
-    LocalDate bookTo;
+    private Customer customer;
+    private LocalDate bookFrom;
+    private LocalDate bookTo;
 
     public BookingOrders(Customer customer, LocalDate bookFrom, LocalDate bookTo) {
         this.bookFrom = bookFrom;
@@ -25,5 +28,12 @@ public class BookingOrders {
         return bookTo;
     }
 
-
+    @Override
+    public String toString() {
+        return "BookingOrders{" +
+                "customer=" + customer +
+                ", bookFrom=" + bookFrom +
+                ", bookTo=" + bookTo +
+                '}';
+    }
 }
