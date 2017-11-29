@@ -4,28 +4,28 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
-import java.util.List;
 
 
 @SpringView
 public class SummaryView extends VerticalLayout implements View {
     public static final String VIEW_NAME = "summary";
     private BookingList bookingList;
-    private List list;
+    private BookingOrders bookingEntry;
 
     public SummaryView() {
         bookingList = BookingList.getInstance();
-        list = bookingList.getList();
-        String bookingRequest = list.get(0).toString();
-        Label messageAfterRequest = new Label("Dear " + bookingRequest );
+        bookingEntry = bookingList.getEntry(0);
+        Label messageAfterRequest = new Label("Dear " + bookingEntry.getCustomer().getFirstName() + ","
+         + " Your request will be processed soon. Below your final booking information " + "Booking from: "
+         + bookingEntry.getBookFrom() + " to: " + bookingEntry.getBookTo());
+        messageAfterRequest.setWidth("400");
         addComponent(messageAfterRequest);
-        System.out.println(list.size());
 
     }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        list = BookingList.getInstance().getList();
+        bookingList = BookingList.getInstance();
     }
 
 }

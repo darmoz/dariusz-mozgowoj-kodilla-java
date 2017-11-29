@@ -12,6 +12,7 @@ public class BookingOrders {
     private LocalDate bookTo;
 
     public BookingOrders(Customer customer, LocalDate bookFrom, LocalDate bookTo) {
+        this.customer = customer;
         this.bookFrom = bookFrom;
         this.bookTo = bookTo;
     }

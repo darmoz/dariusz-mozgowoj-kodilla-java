@@ -2,5 +2,5 @@ package com.kodilla.spring.vaadin.example1;
 
 
 public interface CommunicationService {
-    void sendMessage();
+    void sendMessage(String from, String to, String subject, String msg);
 }

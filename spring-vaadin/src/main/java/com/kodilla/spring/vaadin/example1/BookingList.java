@@ -6,6 +6,9 @@ public class BookingList {
     private static BookingList bookingListInstance = null;
     List<BookingOrders> orderList = new ArrayList<>();
 
+    private BookingList() {
+    }
+
     public static BookingList getInstance() {
         if(bookingListInstance==null) {
             bookingListInstance = new BookingList();
@@ -13,9 +16,10 @@ public class BookingList {
         return bookingListInstance;
     }
 
-    public List getList() {
+   /* public List getList() {
         return orderList;
-    }
+    }*/
+    public BookingOrders getEntry(int i) {return orderList.get(i);}
 
 
     public void addEntry(BookingOrders bookingOrders) {

@@ -8,7 +8,7 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Theme("valo")
 @SpringView
@@ -27,6 +27,7 @@ public class BookingView extends VerticalLayout implements View {
     private BookingOrders bookingOrders;
     private Customer customer;
     private Button sendRequest;
+    private EmailCommunication emailCommunication;
 
     public BookingView() {
         Label header = new Label("BOOKING FORM");
@@ -41,7 +42,6 @@ public class BookingView extends VerticalLayout implements View {
         horizontalLayout.addComponents(bookFrom, bookTo);
         addComponents(header, firstName, lastName, email, phoneNumber, horizontalLayout);
         addRequestButton();
-
     }
 
     public void addRequestButton() {
@@ -56,17 +56,17 @@ public class BookingView extends VerticalLayout implements View {
             bookingList = BookingList.getInstance();
             customer = new Customer(firstName.getValue(),lastName.getValue(),email.getValue(),
                     phoneNumber.getValue());
-            bookingOrders = new BookingOrders(customer, bookFrom.getValue(),
-                    bookTo.getValue());
+            bookingOrders = new BookingOrders(customer, bookFrom.getValue(), bookTo.getValue());
             bookingList.addEntry(bookingOrders);
             UI ui = UI.getCurrent();
             Navigator navigator = ui.getNavigator();
             navigator.navigateTo(SummaryView.VIEW_NAME);
             Notification.show("Request has been sent!");
-            System.out.println(bookingList.getList().size());
+            //emailCommunication.sendMessage("dariusz.mozgowoj@gmail.com", "dariusz.mozgowoj@gmail.com", "none", "example");
+            System.out.println(bookingList.getEntry(0).getCustomer().getFirstName());
         }
-
     }
+
     private boolean fieldsValidator() {
         boolean isValid = false;
             if(firstName.getValue().isEmpty() || lastName.getValue().isEmpty()) {
@@ -76,9 +76,10 @@ public class BookingView extends VerticalLayout implements View {
                                 Notification.show("Please provide valid communication method");
                             } else {
                                     if(bookFrom.getValue() == null || bookTo.getValue() == null
-                                            || bookFrom.getValue().isAfter(bookTo.getValue())) {
-                                        Notification.show("Please provide valid dates");
-                                        isValid = false;
+                                            || bookFrom.getValue().isAfter(bookTo.getValue())
+                                            || bookFrom.getValue().isBefore(LocalDate.now())) {
+                                            Notification.show("Please provide valid dates");
+                                            isValid = false;
                                     } else isValid = true;
                             }
                         }
