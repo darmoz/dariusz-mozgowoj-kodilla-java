@@ -97,7 +97,7 @@ public class CompanyDaoTestSuite {
         int greyMatterId = greyMatter.getId();
 
         //WHEN
-        List<Company> threeLetterSearch = companyDao.finFirstThreeLettersCompany();
+        List<Company> threeLetterSearch = companyDao.finFirstThreeLettersCompany("Dat");
 
         //THEN
         Assert.assertEquals(1, threeLetterSearch.size());

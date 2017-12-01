@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NamedNativeQuery(name = "Company.finFirstThreeLettersCompany",
-                  query = "SELECT * FROM companies WHERE LEFT(company_name, 3) = \"Dat\" ",
+                  query = "SELECT * FROM companies WHERE LEFT(company_name, 3) = :LETTERS ",
                   resultClass = Company.class
 )
 
