@@ -41,7 +41,6 @@ public class Product {
     @OneToMany(
             targetEntity = Item.class,
             mappedBy = "product",
-            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     public List<Item> getItems() {
         return items;

@@ -31,8 +31,7 @@ public class Invoice {
     @OneToMany(
             targetEntity = Item.class,
             mappedBy = "invoice",
-            cascade = {CascadeType.REFRESH, CascadeType.DETACH,
-                        CascadeType.MERGE, CascadeType.PERSIST},
+            cascade = CascadeType.ALL,
             fetch = FetchType.EAGER
     )
     public List<Item> getItems() {
