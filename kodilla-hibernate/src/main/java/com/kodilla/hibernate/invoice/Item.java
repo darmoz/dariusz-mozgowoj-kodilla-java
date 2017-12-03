@@ -42,7 +42,7 @@ public class Item {
         return value;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "INVOICE_ID")
     public Invoice getInvoice() {
         return invoice;
@@ -67,7 +67,7 @@ public class Item {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "PRODUCT_ID")
     public Product getProduct() {
         return product;
