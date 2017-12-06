@@ -1,12 +1,19 @@
 package com.kodilla.spring.vaadin.example1;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.data.Binder;
+import com.vaadin.data.validator.DateRangeValidator;
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.UserError;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
@@ -20,41 +27,98 @@ public class BookingView extends VerticalLayout implements View {
     private TextField lastName;
     private TextField email;
     private TextField phoneNumber;
-    private HorizontalLayout horizontalLayout;
+    private HorizontalLayout horizontalDates;
+    private HorizontalLayout horizontalUser;
+    private HorizontalLayout horizontalCommunication;
     private DateField bookFrom;
     private DateField bookTo;
     private BookingList bookingList;
     private BookingOrders bookingOrders;
     private Customer customer;
     private Button sendRequest;
-    private EmailCommunication emailCommunication;
+    //private EmailCommunication emailCommunication;
+    private Binder<Customer> userBinder;
+    private Binder<BookingOrders> orderBinder;
+    Binder.BindingBuilder<BookingOrders, LocalDate> dateBidingBuilder;
 
     public BookingView() {
         Label header = new Label("BOOKING FORM");
         header.addStyleName(ValoTheme.LABEL_H1);
-        firstName = new TextField("First Name: ");
-        lastName = new TextField("Last Name: ");
-        email = new TextField("Email: ");
-        phoneNumber = new TextField("Phone No.: ");
-        horizontalLayout = new HorizontalLayout();
-        bookFrom = new DateField("From: ");
-        bookTo = new DateField("To: ");
-        horizontalLayout.addComponents(bookFrom, bookTo);
-        addComponents(header, firstName, lastName, email, phoneNumber, horizontalLayout);
+        addUserInfo();
+        addCommunicationInfo();
+        addBookingDate();
+        addComponents(header, horizontalUser, horizontalCommunication, horizontalDates);
         addRequestButton();
+    }
+
+    public void addUserInfo() {
+        userBinder = new Binder<>();
+        horizontalUser = new HorizontalLayout();
+        firstName = new TextField("First Name: ");
+        firstName.setPlaceholder("John");
+        firstName.setIcon(VaadinIcons.USER);
+        userBinder.forField(firstName).asRequired("First Name can not be empty!")
+                .withValidator(name -> name.length()>=3, "First name is too short!")
+                .bind(Customer::getFirstName, Customer::setFirstName);
+        lastName = new TextField("Last Name: ");
+        lastName.setPlaceholder("Wick");
+        userBinder.forField(lastName).asRequired("Last Name can not be empty!")
+                .withValidator(name -> name.length()>=2, "Last name is too short!")
+                .bind(Customer::getLastName, Customer::setLastName);
+        horizontalUser.addComponents(firstName, lastName);
+    }
+
+    public void addCommunicationInfo() {
+        horizontalCommunication = new HorizontalLayout();
+        email = new TextField("Email: ");
+        email.setPlaceholder("abc@example.com");
+        email.setIcon(VaadinIcons.ENVELOPE);
+        userBinder.forField(email).asRequired("Email can not be empty!")
+                .withValidator(new EmailValidator("This is not correct email address"))
+                .bind(Customer::getEmail, Customer::setEmail);
+        phoneNumber = new TextField("Phone No.: ");
+        phoneNumber.setPlaceholder("+99 123456");
+        phoneNumber.setIcon(VaadinIcons.PHONE);
+        userBinder.forField(phoneNumber).asRequired("Phone number can not be empty!")
+                .withValidator(number -> number.length()<=12,"Too many digits")
+                .withValidator(number -> number.contains("+"), "You have missed \"+\"")
+                .bind(Customer::getFirstName, Customer::setFirstName);
+        horizontalCommunication.addComponents(email, phoneNumber);
+    }
+
+    public void addBookingDate() {
+        orderBinder = new Binder<>();
+        horizontalDates = new HorizontalLayout();
+        bookFrom = new DateField("From: ");
+        bookFrom.setIcon(VaadinIcons.CALENDAR);
+        bookFrom.setPlaceholder("dd.mm.yy");
+        orderBinder.forField(bookFrom).asRequired("Date from can not be empty!")
+                .withValidator(new DateRangeValidator("Date is out of available range",
+                 LocalDate.now(), LocalDate.of(2018, 12, 30)))
+                .bind(BookingOrders::getBookFrom, BookingOrders::setBookFrom);
+        bookTo = new DateField("To: ");
+        bookTo.setPlaceholder("dd.mm.yy");
+        orderBinder.forField(bookTo).asRequired("Date to can not be empty!")
+                .withValidator(new DateRangeValidator("Date is out of available range",
+                LocalDate.now(), LocalDate.of(2018, 12, 30)))
+                .withValidator(bookToDate -> !bookToDate.isBefore(bookFrom.getValue()),
+                        "Last date should be after first date")
+                .bind(BookingOrders::getBookTo, BookingOrders::setBookTo);
+        horizontalDates.addComponents(bookFrom, bookTo);
     }
 
     public void addRequestButton() {
         sendRequest = new Button("Send Request");
+        sendRequest.focus();
         sendRequest.addStyleName(ValoTheme.BUTTON_PRIMARY);
         sendRequest.addClickListener(e -> sendRequestExecution());
         addComponent(sendRequest);
     }
 
     private final void sendRequestExecution() {
-        if(fieldsValidator()) {
+        if (userBinder.isValid() && orderBinder.isValid()) {
             bookingList = BookingList.getInstance();
-            customer = new Customer(firstName.getValue(),lastName.getValue(),email.getValue(),
+            customer = new Customer(firstName.getValue(), lastName.getValue(), email.getValue(),
                     phoneNumber.getValue());
             bookingOrders = new BookingOrders(customer, bookFrom.getValue(), bookTo.getValue());
             bookingList.addEntry(bookingOrders);
@@ -64,27 +128,10 @@ public class BookingView extends VerticalLayout implements View {
             Notification.show("Request has been sent!");
             //emailCommunication.sendMessage("dariusz.mozgowoj@gmail.com", "dariusz.mozgowoj@gmail.com", "none", "example");
             System.out.println(bookingList.getEntry(0).getCustomer().getFirstName());
+        } else {
+            Notification.show("Request could not be saved. Please fix error messages for each field");
         }
     }
-
-    private boolean fieldsValidator() {
-        boolean isValid = false;
-            if(firstName.getValue().isEmpty() || lastName.getValue().isEmpty()) {
-                    Notification.show("Provide both, first and last name");
-                } else {
-                        if(email.getValue().isEmpty() && phoneNumber.getValue().isEmpty()) {
-                                Notification.show("Please provide valid communication method");
-                            } else {
-                                    if(bookFrom.getValue() == null || bookTo.getValue() == null
-                                            || bookFrom.getValue().isAfter(bookTo.getValue())
-                                            || bookFrom.getValue().isBefore(LocalDate.now())) {
-                                            Notification.show("Please provide valid dates");
-                                            isValid = false;
-                                    } else isValid = true;
-                            }
-                        }
-             return isValid;
-            }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {

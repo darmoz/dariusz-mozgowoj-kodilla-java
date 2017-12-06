@@ -29,6 +29,18 @@ public class BookingOrders {
         return bookTo;
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public void setBookFrom(LocalDate bookFrom) {
+        this.bookFrom = bookFrom;
+    }
+
+    public void setBookTo(LocalDate bookTo) {
+        this.bookTo = bookTo;
+    }
+
     @Override
     public String toString() {
         return "BookingOrders{" +
