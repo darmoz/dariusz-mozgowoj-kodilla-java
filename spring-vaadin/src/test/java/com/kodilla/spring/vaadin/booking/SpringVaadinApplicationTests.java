@@ -1,4 +1,4 @@
-package com.kodilla.spring.vaadin;
+package com.kodilla.spring.vaadin.booking;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

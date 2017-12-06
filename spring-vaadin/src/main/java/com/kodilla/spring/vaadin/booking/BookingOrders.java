@@ -1,15 +1,18 @@
-package com.kodilla.spring.vaadin.example1;
+package com.kodilla.spring.vaadin.booking;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-
+@Entity
+@Table(name = "ORDERS")
 public class BookingOrders {
 
+    private int id;
     private Customer customer;
     private LocalDate bookFrom;
     private LocalDate bookTo;
+
+    public BookingOrders() {}
 
     public BookingOrders(Customer customer, LocalDate bookFrom, LocalDate bookTo) {
         this.customer = customer;
@@ -17,14 +20,25 @@ public class BookingOrders {
         this.bookTo = bookTo;
     }
 
+    @Id
+    @GeneratedValue
+    @NotNull
+    @Column(name = "ORDER_ID", unique = true)
+    public int getId() { return id; }
+
+
     public Customer getCustomer() {
         return customer;
     }
 
+    @NotNull
+    @Column(name = "DATE_FROM")
     public LocalDate getBookFrom() {
         return bookFrom;
     }
 
+    @NotNull
+    @Column(name = "DATE_TO")
     public LocalDate getBookTo() {
         return bookTo;
     }

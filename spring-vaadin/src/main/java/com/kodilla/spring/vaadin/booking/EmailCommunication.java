@@ -1,6 +1,5 @@
-package com.kodilla.spring.vaadin.example1;
+package com.kodilla.spring.vaadin.booking;
 
-import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 

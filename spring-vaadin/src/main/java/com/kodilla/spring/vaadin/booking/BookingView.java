@@ -1,4 +1,4 @@
-package com.kodilla.spring.vaadin.example1;
+package com.kodilla.spring.vaadin.booking;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Binder;
@@ -8,12 +8,9 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.UserError;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 

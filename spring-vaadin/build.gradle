@@ -33,6 +33,10 @@ dependencies {
 	compile('org.springframework:spring-context-support')
 	compile('javax.mail:mail')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-jdbc')
+	compile('org.springframework.boot:spring-boot-starter-validation')
+	runtime('mysql:mysql-connector-java')
 }
 
 dependencyManagement {
