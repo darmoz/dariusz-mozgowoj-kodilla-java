@@ -6,11 +6,32 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "CUSTOMERS")
 public class Customer {
+
+    @Id
+    @GeneratedValue
+    @NotNull
+    @Column(name = "CUSTOMER_ID", unique = true)
     private int id;
+
+    @NotNull
+    @Column(name = "FIRST_NAME")
     private String firstName;
+
+    @NotNull
+    @Column(name = "LAST_NAME")
     private String lastName;
+
+    @NotNull
+    @Column(name = "EMAIL")
     private String email;
+
+    @NotNull
+    @Column(name = "PHONE_NUMBER")
     private String phoneNumber;
+
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "BOOKING_ORDER_ID")
     private BookingOrders bookingOrders;
 
     public Customer() {}
@@ -21,38 +42,25 @@ public class Customer {
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
-    @Id
-    @GeneratedValue
-    @NotNull
-    @Column(name = "CUSTOMER_ID", unique = true)
+
     public int getId() { return id;}
 
-    @NotNull
-    @Column(name = "FIRST_NAME")
     public String getFirstName() {
         return firstName;
     }
 
-    @NotNull
-    @Column(name = "LAST_NAME")
     public String getLastName() {
         return lastName;
     }
 
-    @NotNull
-    @Column(name = "EMAIL")
     public String getEmail() {
         return email;
     }
 
-    @NotNull
-    @Column(name = "PHONE_NUMBER")
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "BOOKING_ORDERS_ID")
     public BookingOrders getBookingOrders() {
         return bookingOrders;
     }

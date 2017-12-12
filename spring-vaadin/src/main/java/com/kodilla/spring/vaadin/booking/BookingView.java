@@ -1,5 +1,6 @@
 package com.kodilla.spring.vaadin.booking;
 
+import com.kodilla.spring.vaadin.booking.dao.CustomerDao;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Binder;
 import com.vaadin.data.validator.DateRangeValidator;
@@ -11,7 +12,9 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 @Theme("valo")
@@ -19,6 +22,9 @@ import java.time.LocalDate;
 public class BookingView extends VerticalLayout implements View {
 
     public static final String VIEW_NAME = "";
+
+    @Autowired
+    CustomerDao customerDao;
 
     private TextField firstName;
     private TextField lastName;
@@ -114,17 +120,19 @@ public class BookingView extends VerticalLayout implements View {
 
     private final void sendRequestExecution() {
         if (userBinder.isValid() && orderBinder.isValid()) {
-            bookingList = BookingList.getInstance();
+            //bookingList = BookingList.getInstance();
             customer = new Customer(firstName.getValue(), lastName.getValue(), email.getValue(),
                     phoneNumber.getValue());
             bookingOrders = new BookingOrders(customer, bookFrom.getValue(), bookTo.getValue());
+            customer.setBookingOrders(bookingOrders);
+            //customerDao.save(customer);
             bookingList.addEntry(bookingOrders);
             UI ui = UI.getCurrent();
             Navigator navigator = ui.getNavigator();
             navigator.navigateTo(SummaryView.VIEW_NAME);
             Notification.show("Request has been sent!");
             //emailCommunication.sendMessage("dariusz.mozgowoj@gmail.com", "dariusz.mozgowoj@gmail.com", "none", "example");
-            System.out.println(bookingList.getEntry(0).getCustomer().getFirstName());
+            //System.out.println(bookingList.getEntry(0).getCustomer().getFirstName());
         } else {
             Notification.show("Request could not be saved. Please fix error messages for each field");
         }

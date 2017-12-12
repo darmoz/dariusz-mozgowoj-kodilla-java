@@ -5,6 +5,8 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.UI;
 
+import java.sql.SQLException;
+
 @SpringUI
 public class BookingUI extends UI {
     @Override
@@ -12,6 +14,7 @@ public class BookingUI extends UI {
         Navigator navigator = new Navigator(this, this);
 
         navigator.addView(BookingView.VIEW_NAME, new BookingView());
+
         navigator.addView(SummaryView.VIEW_NAME, SummaryView.class);
 
         navigator.navigateTo(BookingView.VIEW_NAME);

@@ -3,13 +3,27 @@ package com.kodilla.spring.vaadin.booking;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Date;
+
 @Entity
 @Table(name = "ORDERS")
 public class BookingOrders {
 
+    @Id
+    @GeneratedValue
+    @NotNull
+    @Column(name = "ORDER_ID", unique = true)
     private int id;
+
+    @OneToOne(mappedBy = "bookingOrders", cascade = CascadeType.ALL)
     private Customer customer;
+
+    @NotNull
+    @Column(name = "DATE_FROM", columnDefinition = "varchar(20)")
     private LocalDate bookFrom;
+
+    @NotNull
+    @Column(name = "DATE_TO", columnDefinition = "varchar(20)")
     private LocalDate bookTo;
 
     public BookingOrders() {}
@@ -20,27 +34,20 @@ public class BookingOrders {
         this.bookTo = bookTo;
     }
 
-    @Id
-    @GeneratedValue
-    @NotNull
-    @Column(name = "ORDER_ID", unique = true)
     public int getId() { return id; }
 
+    public Customer getCustomer() { return customer; }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    @NotNull
-    @Column(name = "DATE_FROM")
     public LocalDate getBookFrom() {
         return bookFrom;
     }
 
-    @NotNull
-    @Column(name = "DATE_TO")
     public LocalDate getBookTo() {
         return bookTo;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setCustomer(Customer customer) {
