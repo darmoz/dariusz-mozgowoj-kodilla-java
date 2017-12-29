@@ -2,7 +2,7 @@ package com.kodilla.spring.vaadin.booking.dao;
 
 import com.kodilla.spring.vaadin.booking.BookingOrders;
 import com.kodilla.spring.vaadin.booking.Customer;
-import com.kodilla.spring.vaadin.booking.DbManager;
+import com.kodilla.spring.vaadin.booking.dbService.DbManager;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +53,7 @@ public class BookingDaoTestSuite {
         bookingOrdersDao.save(order);
         int id = order.getId();
         //Then
-        Assert.assertEquals(1, id);
+        Assert.assertEquals(5, id);
         //Clean up
         bookingOrdersDao.delete(id);
 

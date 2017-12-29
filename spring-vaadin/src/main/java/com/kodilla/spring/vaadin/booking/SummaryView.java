@@ -16,7 +16,7 @@ public class SummaryView extends VerticalLayout implements View {
     private BookingList bookingList;
     private BookingOrders bookingEntry;
 
-    public SummaryView() throws SQLException {
+    public SummaryView()  {
         /*DbManager dbManager = DbManager.getInstance();
 
         String sqlQuery = "SELECT * FROM CUSTOMERS";
@@ -33,11 +33,20 @@ public class SummaryView extends VerticalLayout implements View {
 
         bookingList = BookingList.getInstance();
         bookingEntry = bookingList.getEntry(0);
-        Label messageAfterRequest = new Label("Dear " + bookingEntry.getCustomer().getFirstName() + ","
-         + " Your request will be processed soon. Below your final booking information " + "Booking from: "
-         + bookingEntry.getBookFrom() + " to: " + bookingEntry.getBookTo());
-        messageAfterRequest.setWidth("400");
-        addComponent(messageAfterRequest);
+        String message = "Dear " + bookingEntry.getCustomer().getFirstName() + ",\n"
+                + "Your request will be processed soon.\n\nBelow your final booking information: "
+                + "\nBooking from: " + bookingEntry.getBookFrom()
+                + "\nTo: " + bookingEntry.getBookTo()
+                + "\nEmail: " + bookingEntry.getCustomer().getEmail()
+                + "\n\nIf you have questions contact us: "
+                + "\nCompany Phone: +48 999999"
+                + "\nCompany Email: comppany@company.pl"
+                + "\n\nWe will contact you soon with more details related to your request.";
+        TextArea confirmationInfo = new TextArea("Please review your order information (below):", message);
+        confirmationInfo.setWordWrap(true);
+        confirmationInfo.setWidth("550");
+        confirmationInfo.setHeight("300");
+        addComponent(confirmationInfo);
 
     }
 

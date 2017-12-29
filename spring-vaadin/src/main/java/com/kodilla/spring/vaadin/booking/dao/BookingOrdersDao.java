@@ -8,4 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface BookingOrdersDao extends CrudRepository<BookingOrders, Integer> {
+
+    @Override
+    BookingOrders save(BookingOrders bookingOrders);
 }

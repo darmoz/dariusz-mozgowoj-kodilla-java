@@ -1,5 +1,6 @@
 package com.kodilla.spring.vaadin.booking;
 
+import com.kodilla.spring.vaadin.booking.controller.CustomerController;
 import com.kodilla.spring.vaadin.booking.dao.CustomerDao;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Binder;
@@ -14,7 +15,6 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 @Theme("valo")
@@ -25,6 +25,8 @@ public class BookingView extends VerticalLayout implements View {
 
     @Autowired
     CustomerDao customerDao;
+    @Autowired
+    CustomerController customerController;
 
     private TextField firstName;
     private TextField lastName;
@@ -120,12 +122,12 @@ public class BookingView extends VerticalLayout implements View {
 
     private final void sendRequestExecution() {
         if (userBinder.isValid() && orderBinder.isValid()) {
-            //bookingList = BookingList.getInstance();
+            bookingList = BookingList.getInstance();
             customer = new Customer(firstName.getValue(), lastName.getValue(), email.getValue(),
                     phoneNumber.getValue());
             bookingOrders = new BookingOrders(customer, bookFrom.getValue(), bookTo.getValue());
             customer.setBookingOrders(bookingOrders);
-            //customerDao.save(customer);
+            //customerController.createCustomerOrder(customer);
             bookingList.addEntry(bookingOrders);
             UI ui = UI.getCurrent();
             Navigator navigator = ui.getNavigator();

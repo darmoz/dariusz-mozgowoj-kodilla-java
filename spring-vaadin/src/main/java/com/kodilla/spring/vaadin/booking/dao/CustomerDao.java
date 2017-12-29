@@ -8,4 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public interface CustomerDao extends CrudRepository<Customer, Integer> {
+
+    @Override
+    Customer save(Customer customer);
 }
