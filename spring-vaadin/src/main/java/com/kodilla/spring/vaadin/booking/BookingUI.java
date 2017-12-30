@@ -17,6 +17,8 @@ public class BookingUI extends UI {
 
         navigator.addView(SummaryView.VIEW_NAME, SummaryView.class);
 
+        navigator.addView(ConfirmationEmailView.VIEW_NAME, ConfirmationEmailView.class);
+
         navigator.navigateTo(BookingView.VIEW_NAME);
     }
 

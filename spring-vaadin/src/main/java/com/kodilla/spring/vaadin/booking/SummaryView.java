@@ -7,6 +7,8 @@ import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 
@@ -23,7 +25,7 @@ public class SummaryView extends VerticalLayout implements View{
 
 
     @Autowired
-    private CommunicationService communicationService;
+    private MailCommunication mailCommunication;
 
     public SummaryView() {
         orderInfo();
@@ -76,15 +78,10 @@ public class SummaryView extends VerticalLayout implements View{
     }
 
     public void confirmButtonExecution() throws MessagingException {
-        communicationService.sendMessage();
-        /*mail = new Mail();
-        mail.setFrom(bookingEntry.getCustomer().getEmail());
-        mail.setTo("dariusz.mozgowoj@gmail.com");
-        mail.setSubject("Order Confirmation");
-        mail.setContent(message);
-
-        mailCommunication.sendMessage(mail);
-        Notification.show("Email has been sent. Please check your inbox");*/
+        mailCommunication.sendMessage("dariusz.mozgowoj@gmail.com", "dddd", "howdy");
+        UI ui = UI.getCurrent();
+        Navigator navigator = ui.getNavigator();
+        navigator.navigateTo(ConfirmationEmailView.VIEW_NAME);
     }
 
     @Override
