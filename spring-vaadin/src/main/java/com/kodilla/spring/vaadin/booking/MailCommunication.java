@@ -1,37 +1,34 @@
 package com.kodilla.spring.vaadin.booking;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 @Service
-@EnableAutoConfiguration
 public final class MailCommunication implements CommunicationService {
-    @Autowired
-    private MailSender mailSender;
-
-    private SimpleMailMessage templateMessage;
-
-    public void setEmailSender(MailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    public void setTemplateMessage(SimpleMailMessage templateMessage) {
-        this.templateMessage = templateMessage;
-    }
 
     @Override
-    public void sendMessage(final Mail mail) {
-        SimpleMailMessage message = new SimpleMailMessage(this.templateMessage);
-        message.setSubject(mail.getSubject());
-        message.setText(mail.getContent());
-        message.setTo(mail.getTo());
-        message.setFrom(mail.getFrom());
+    @RequestMapping(path = "/email", method = RequestMethod.POST)
+    public void sendMessage() throws MessagingException {
+        String host = "smtp.gmail.com";
+        String to = "dariusz.mozgowoj@gmail.com";
+        String from = "noreply@gmail.com";
+        Properties props = System.getProperties();
+        props.put(host, host);
+        Session session = Session.getDefaultInstance(props, null);
+        MimeMessage msg = new MimeMessage(session);
+        msg.setFrom(new InternetAddress(from));
+        msg.addRecipient(javax.mail.Message.RecipientType.TO,
+                new InternetAddress(to));
+        msg.setSubject("Halloo");
+        msg.setText("This is test mail");
+
         try {
-            this.mailSender.send(message);
+            Transport.send(msg);
         }
         catch (MailException ex) {
             System.err.println(ex.getMessage());

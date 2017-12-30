@@ -8,6 +8,8 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.mail.MessagingException;
+
 @SpringView
 public class SummaryView extends VerticalLayout implements View{
     public static final String VIEW_NAME = "summary";
@@ -21,7 +23,7 @@ public class SummaryView extends VerticalLayout implements View{
 
 
     @Autowired
-    private MailCommunication mailCommunication;
+    private CommunicationService communicationService;
 
     public SummaryView() {
         orderInfo();
@@ -53,7 +55,13 @@ public class SummaryView extends VerticalLayout implements View{
         horizontalLayout = new HorizontalLayout();
         confirm = new Button("Confirm");
         confirm.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        confirm.addClickListener(f -> confirmButtonExecution());
+        confirm.addClickListener(f -> {
+            try {
+                confirmButtonExecution();
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        });
         cancel = new Button("Cancel");
         cancel.addStyleName(ValoTheme.BUTTON_PRIMARY);
         cancel.addClickListener(e -> cancelButtonExecution());
@@ -67,15 +75,16 @@ public class SummaryView extends VerticalLayout implements View{
         navigator.navigateTo(BookingView.VIEW_NAME);
     }
 
-    public void confirmButtonExecution() {
-        mail = new Mail();
+    public void confirmButtonExecution() throws MessagingException {
+        communicationService.sendMessage();
+        /*mail = new Mail();
         mail.setFrom(bookingEntry.getCustomer().getEmail());
         mail.setTo("dariusz.mozgowoj@gmail.com");
         mail.setSubject("Order Confirmation");
         mail.setContent(message);
 
         mailCommunication.sendMessage(mail);
-        //Notification.show("Email has been sent. Please check your inbox");
+        Notification.show("Email has been sent. Please check your inbox");*/
     }
 
     @Override
