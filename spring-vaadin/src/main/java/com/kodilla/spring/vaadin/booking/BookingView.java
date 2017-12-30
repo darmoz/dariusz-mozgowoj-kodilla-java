@@ -132,9 +132,6 @@ public class BookingView extends VerticalLayout implements View {
             UI ui = UI.getCurrent();
             Navigator navigator = ui.getNavigator();
             navigator.navigateTo(SummaryView.VIEW_NAME);
-            Notification.show("Request has been sent!");
-            //emailCommunication.sendMessage("dariusz.mozgowoj@gmail.com", "dariusz.mozgowoj@gmail.com", "none", "example");
-            //System.out.println(bookingList.getEntry(0).getCustomer().getFirstName());
         } else {
             Notification.show("Request could not be saved. Please fix error messages for each field");
         }
