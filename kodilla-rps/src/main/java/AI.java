@@ -14,4 +14,8 @@ public class AI implements GameObject {
         }
         return AIget;
     }
+
+    public void forUserGameCancelation() {
+        System.out.println("AI: Thank you for the game!");
+    }
 }

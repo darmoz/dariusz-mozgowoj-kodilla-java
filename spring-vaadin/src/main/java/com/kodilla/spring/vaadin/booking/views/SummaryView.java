@@ -1,16 +1,19 @@
-package com.kodilla.spring.vaadin.booking;
+package com.kodilla.spring.vaadin.booking.views;
 
+import com.kodilla.spring.vaadin.booking.dbService.BookingList;
+import com.kodilla.spring.vaadin.booking.BookingOrders;
+import com.kodilla.spring.vaadin.booking.emailService.MailCommunication;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 
 @SpringView
 public class SummaryView extends VerticalLayout implements View{
@@ -19,7 +22,6 @@ public class SummaryView extends VerticalLayout implements View{
     private BookingOrders bookingEntry;
     private Button confirm;
     private Button cancel;
-    private Mail mail;
     private HorizontalLayout horizontalLayout;
     private String message;
 
@@ -37,7 +39,7 @@ public class SummaryView extends VerticalLayout implements View{
         bookingList = BookingList.getInstance();
         bookingEntry = bookingList.getEntry(0);
         message = "Dear " + bookingEntry.getCustomer().getFirstName() + ",\n"
-                + "Your request will be processed soon.\n\nBelow your final booking information: "
+                + "Your request will be processed soon.\n\nYour final booking information: "
                 + "\nBooking from: " + bookingEntry.getBookFrom()
                 + "\nTo: " + bookingEntry.getBookTo()
                 + "\nEmail: " + bookingEntry.getCustomer().getEmail()
@@ -55,15 +57,16 @@ public class SummaryView extends VerticalLayout implements View{
 
     public void addDecisionButtons() {
         horizontalLayout = new HorizontalLayout();
-        confirm = new Button("Confirm");
-        confirm.addStyleName(ValoTheme.BUTTON_PRIMARY);
-        confirm.addClickListener(f -> {
+        confirm = new Button("Confirm", f -> {
             try {
-                confirmButtonExecution();
+                sendEmail(bookingEntry.getCustomer().getEmail());
+            } catch (IOException e) {
+                e.printStackTrace();
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
         });
+        confirm.addStyleName(ValoTheme.BUTTON_PRIMARY);
         cancel = new Button("Cancel");
         cancel.addStyleName(ValoTheme.BUTTON_PRIMARY);
         cancel.addClickListener(e -> cancelButtonExecution());
@@ -77,11 +80,23 @@ public class SummaryView extends VerticalLayout implements View{
         navigator.navigateTo(BookingView.VIEW_NAME);
     }
 
-    public void confirmButtonExecution() throws MessagingException {
-        mailCommunication.sendMessage("dariusz.mozgowoj@gmail.com", "dddd", "howdy");
+    public void sendEmail(String to) throws IOException, MessagingException {
+        String from = "noreply@company.com";
+        String subject = "Confirmation Email";
+        String body = message;
+
+        mailCommunication.sendMessage(from, to, subject, body);
+        Notification confirmNotification = new Notification(
+                "INFORMATION",
+                "Email has been sent!",
+                Notification.Type.HUMANIZED_MESSAGE);
+
+        confirmNotification.setDelayMsec(1000);
+        confirmNotification.show(Page.getCurrent());
+
         UI ui = UI.getCurrent();
         Navigator navigator = ui.getNavigator();
-        navigator.navigateTo(ConfirmationEmailView.VIEW_NAME);
+        navigator.navigateTo(BookingView.VIEW_NAME);
     }
 
     @Override

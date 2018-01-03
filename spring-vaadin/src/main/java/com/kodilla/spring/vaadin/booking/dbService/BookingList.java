@@ -1,4 +1,6 @@
-package com.kodilla.spring.vaadin.booking;
+package com.kodilla.spring.vaadin.booking.dbService;
+import com.kodilla.spring.vaadin.booking.BookingOrders;
+
 import java.util.ArrayList;
 import java.util.List;
 

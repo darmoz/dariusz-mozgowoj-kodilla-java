@@ -1,34 +1,32 @@
+import org.springframework.beans.factory.annotation.Value;
+import sun.misc.Resource;
+
 import java.io.*;
+import java.util.Scanner;
 
 public class GameServices {
 
-    String fileName;
+    int size = 0;
+    int row = 0;
+    String[][] matrix = null;
 
-    public static String[][] readGameArray(String fileName) {
-        String line = null;
-        int size = 0;
-        int row = 0;
-        String[][] matrix = null;
-
-        try {
-            FileReader reader = new FileReader(fileName);
-            BufferedReader bufferedReader = new BufferedReader(reader);
-
-            while((line = bufferedReader.readLine()) != null) {
-
-                String[] vals = line.trim().split("\\s+");
-                size = vals.length;
-
-                if(matrix == null) {
+    public  String[][] readFromInputStream(InputStream inputStream)
+            throws IOException {
+        try (BufferedReader br
+                     = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = br.readLine())!= null) {
+                String[] readRowValues = line.trim().split("\\s+");
+                size = readRowValues.length;
+                if (matrix == null) {
                     matrix = new String[size][size];
                 }
-
-                for(int col = 0; col<size; col++) {
-                   matrix[row][col] = vals[col];
-                }
+                    for (int column = 0; column < size; column++) {
+                       matrix[row][column] = readRowValues[column];
+                    }
                 row++;
-                }
 
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -38,5 +36,5 @@ public class GameServices {
         return matrix;
     }
 
+    }
 
-}

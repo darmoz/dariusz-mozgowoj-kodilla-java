@@ -1,5 +1,8 @@
-package com.kodilla.spring.vaadin.booking;
+package com.kodilla.spring.vaadin.booking.views;
 
+import com.kodilla.spring.vaadin.booking.dbService.BookingList;
+import com.kodilla.spring.vaadin.booking.BookingOrders;
+import com.kodilla.spring.vaadin.booking.Customer;
 import com.kodilla.spring.vaadin.booking.controller.CustomerController;
 import com.kodilla.spring.vaadin.booking.dao.CustomerDao;
 import com.vaadin.annotations.Theme;
@@ -10,6 +13,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Page;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
@@ -47,8 +51,8 @@ public class BookingView extends VerticalLayout implements View {
     Binder.BindingBuilder<BookingOrders, LocalDate> dateBidingBuilder;
 
     public BookingView() {
-        Label header = new Label("BOOKING FORM");
-        header.addStyleName(ValoTheme.LABEL_H1);
+        Label header = new Label("CREATE NEW BOOKING REQUEST");
+        header.addStyleName(ValoTheme.LABEL_H2);
         addUserInfo();
         addCommunicationInfo();
         addBookingDate();
@@ -113,7 +117,7 @@ public class BookingView extends VerticalLayout implements View {
     }
 
     public void addRequestButton() {
-        sendRequest = new Button("Send Request");
+        sendRequest = new Button("Create request");
         sendRequest.focus();
         sendRequest.addStyleName(ValoTheme.BUTTON_PRIMARY);
         sendRequest.addClickListener(e -> sendRequestExecution());
@@ -133,7 +137,13 @@ public class BookingView extends VerticalLayout implements View {
             Navigator navigator = ui.getNavigator();
             navigator.navigateTo(SummaryView.VIEW_NAME);
         } else {
-            Notification.show("Request could not be saved. Please fix error messages for each field");
+            Notification warningNotification = new Notification(
+                "WARNING",
+                    "Request could not be saved. Please fill all fields",
+                    Notification.Type.WARNING_MESSAGE);
+
+            warningNotification.setDelayMsec(700);
+            warningNotification.show(Page.getCurrent());
         }
     }
 
