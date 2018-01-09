@@ -1,40 +1,37 @@
-import org.springframework.beans.factory.annotation.Value;
-import sun.misc.Resource;
-
+import exceptions.EmptyFileException;
 import java.io.*;
-import java.util.Scanner;
 
 public class GameServices {
 
-    int size = 0;
-    int row = 0;
-    String[][] matrix = null;
+    private int size = 0;
+    private int row = 0;
+    private String[][] matrix = null;
 
-    public  String[][] readFromInputStream(InputStream inputStream)
-            throws IOException {
+    public String[][] readFromInputStream(InputStream inputStream)
+            throws IOException /*EmptyFileException*/ {
         try (BufferedReader br
                      = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
-            while ((line = br.readLine())!= null) {
+            while ((line = br.readLine()) != null) {
                 String[] readRowValues = line.trim().split("\\s+");
                 size = readRowValues.length;
-                if (matrix == null) {
-                    matrix = new String[size][size];
-                }
-                    for (int column = 0; column < size; column++) {
-                       matrix[row][column] = readRowValues[column];
+               // if (size != 0) {
+                    if (matrix == null) {
+                        matrix = new String[size][size];
                     }
-                row++;
-
+                    for (int column = 0; column < size; column++) {
+                        matrix[row][column] = readRowValues[column];
+                    }
+                    row++;
+              //  }
+               // throw new EmptyFileException("ERROR");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return matrix;
+            return matrix;
     }
-
-    }
+}
 
