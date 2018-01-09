@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class User implements  GameObject{
 
     private Scanner userScanner;
-    private int result = 0;
 
     public User() {
         userScanner = new Scanner(System.in);

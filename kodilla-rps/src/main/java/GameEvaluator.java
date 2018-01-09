@@ -6,17 +6,17 @@ import java.io.InputStream;
 public class GameEvaluator {
 
     private boolean end;
-    private int userScore;
-    private int aiScore;
-    private int gameCounter;
+    /*private*/ int userScore;
+    /*private*/ int aiScore;
+    /*private*/ int gameCounter;
     private InputStream gameResource;
     private static String[][] matrix;
 
     public void setGameDefaultValues() {
-        boolean end = false;
-        int userScore = 0;
-        int aiScore = 0;
-        int gameCounter = 0;
+        end = false;
+        userScore = 0;
+        aiScore = 0;
+        gameCounter = 0;
     }
 
     public void gameStats() {
