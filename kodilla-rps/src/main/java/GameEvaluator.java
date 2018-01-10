@@ -43,7 +43,7 @@ public class GameEvaluator {
                 int rowNum = ai.getGameObject().getObjectValue();
                 final String resultValue = matrix[rowNum][colNum];
                 hasUserWin(resultValue);
-1                if (matrix[rowNum].equals(matrix[colNum])) {
+                if (matrix[rowNum].equals(matrix[colNum])) {
                     System.out.println("Tie!");
                     gameStats();
                 }
