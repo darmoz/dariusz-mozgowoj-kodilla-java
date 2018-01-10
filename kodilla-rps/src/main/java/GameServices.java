@@ -1,4 +1,4 @@
-import exceptions.EmptyFileException;
+
 import java.io.*;
 
 public class GameServices {
@@ -8,14 +8,14 @@ public class GameServices {
     private String[][] matrix = null;
 
     public String[][] readFromInputStream(InputStream inputStream)
-            throws IOException /*EmptyFileException*/ {
+            throws IOException {
         try (BufferedReader br
                      = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] readRowValues = line.trim().split("\\s+");
                 size = readRowValues.length;
-               // if (size != 0) {
+
                     if (matrix == null) {
                         matrix = new String[size][size];
                     }
@@ -23,8 +23,6 @@ public class GameServices {
                         matrix[row][column] = readRowValues[column];
                     }
                     row++;
-              //  }
-               // throw new EmptyFileException("ERROR");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
