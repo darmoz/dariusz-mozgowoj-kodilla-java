@@ -13,8 +13,8 @@ public interface GameObject {
         KNIGHT(3),
         DRAGON(4),
         MAGICIAN(5),
-        NEW_GAME(8),
-        EXIT_GAME(9);
+        N(8),
+        X(9);
 
         private int value;
         private static Map map = new HashMap<>();

@@ -6,9 +6,9 @@ import java.io.InputStream;
 public class GameEvaluator {
     private int colNum;
     private int rowNum;
-    /*private*/ int userScore;
-    /*private*/ int aiScore;
-    /*private*/ int gameCounter;
+    private int userScore;
+    private int aiScore;
+    private int gameCounter;
     private InputStream gameResource;
     private static String[][] matrix;
 
@@ -48,8 +48,8 @@ public class GameEvaluator {
                 if (matrix[rowNum].equals(matrix[colNum])) {
                     System.out.println("Tie!");
                     gameStats();
-                    gameCounter++;
                 }
+                gameCounter++;
             }
             return true;
         }

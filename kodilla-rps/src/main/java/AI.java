@@ -2,13 +2,13 @@ import java.util.Random;
 
 public class AI implements GameObject {
 
-    GameObjectValue result;
+    private GameObjectValue result;
 
     public GameObjectValue getAvatar() {
         Random random = new Random();
-        int AIget = random.nextInt(5);
+        int AIget = random.nextInt(4);
         for (GameObjectValue i : GameObjectValue.values()) {
-            if (GameObjectValue.valueOf(AIget).name().equals(i.name())) {
+            if (GameObjectValue.valueOf(AIget+1).name().equals(i.name())) {
                 System.out.println("AI selected " + i.name());
                 result = i;
             }

@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class User implements  GameObject{
 
-    GameObjectValue result;
-    Scanner userScanner;
+    private GameObjectValue result;
+    private Scanner userScanner;
 
     public User() {
     }
@@ -16,7 +16,7 @@ public class User implements  GameObject{
             userScanner = new Scanner(System.in);
             String userInput = userScanner.nextLine();
             for (GameObjectValue i : GameObjectValue.values()) {
-                if (GameObjectValue.valueOf(Integer.parseInt(userInput)).name().equals(i.name())) {
+                 if (GameObjectValue.valueOf(Integer.parseInt(userInput)).name().equals(i.name())) {
                     System.out.println("You selected " + i.name());
                     result = i;
                 }
