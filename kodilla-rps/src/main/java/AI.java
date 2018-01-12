@@ -2,25 +2,18 @@ import java.util.Random;
 
 public class AI implements GameObject {
 
-    public GameObjectValue getGameObject() {
+    GameObjectValue result;
+
+    public GameObjectValue getAvatar() {
         Random random = new Random();
-        int AIget = random.nextInt(2);
-        if(AIget == 0) {
-            System.out.println("AI play with Dog");
-            return GameObjectValue.DOG;
-        } else if( AIget == 1) {
-            System.out.println("AI play with Skeleton");
-            return GameObjectValue.SKELETON;
-        } else if( AIget == 2) {
-            System.out.println("AI play with Knight");
-            return GameObjectValue.KNIGHT;
-        } else if( AIget == 3) {
-            System.out.println("AI play with Dragon");
-            return GameObjectValue.DRAGON;
-        } else {
-            System.out.println("AI play with Magician");
-            return GameObjectValue.MAGICIAN;
+        int AIget = random.nextInt(5);
+        for (GameObjectValue i : GameObjectValue.values()) {
+            if (GameObjectValue.valueOf(AIget).name().equals(i.name())) {
+                System.out.println("AI selected " + i.name());
+                result = i;
+            }
         }
+        return result;
     }
 
     public void forUserGameCancellation() {

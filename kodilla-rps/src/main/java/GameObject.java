@@ -5,21 +5,27 @@ import java.util.Map;
 
 public interface GameObject {
 
-    GameObjectValue  getGameObject() throws IllegalInputValueException;
+    GameObjectValue getAvatar() throws IllegalInputValueException;
 
-    enum GameObjectValue {
-        DOG(0),
-        SKELETON(1),
-        KNIGHT(2),
-        DRAGON(3),
-        MAGICIAN(4),
-        NEW_GAME(5),
-        EXIT_GAME(6);
+   enum GameObjectValue {
+        DOG(1),
+        SKELETON(2),
+        KNIGHT(3),
+        DRAGON(4),
+        MAGICIAN(5),
+        NEW_GAME(8),
+        EXIT_GAME(9);
 
         private int value;
         private static Map map = new HashMap<>();
 
-        GameObjectValue (int value) {
+        static {
+            for (GameObjectValue gameObjectValue : GameObjectValue.values()) {
+                map.put(gameObjectValue.value, gameObjectValue);
+            }
+        }
+
+        GameObjectValue(int value) {
             this.value = value;
         }
 

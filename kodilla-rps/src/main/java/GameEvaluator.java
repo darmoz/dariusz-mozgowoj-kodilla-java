@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class GameEvaluator {
-
+    private int colNum;
+    private int rowNum;
     /*private*/ int userScore;
     /*private*/ int aiScore;
     /*private*/ int gameCounter;
@@ -24,30 +25,31 @@ public class GameEvaluator {
     }
 
     private boolean gameLogic(User user, AI ai) throws IOException {
-        int colNum = 0;
+
         try {
-            colNum = user.getGameObject().getObjectValue();
+            colNum = user.getAvatar().getObjectValue() - 1;
         } catch (IllegalInputValueException e) {
             e.printStackTrace();
         }
-        if (colNum > 4) {
-                if (colNum == 5) {
+            if (colNum > 4) {
+                if (colNum == 7) {
                     gameResource.close();
                     setGameDefaultValues();
                     evaluateGame();
-                } else if (colNum == 6) {
+                } else if (colNum == 8) {
+                    gameResource.close();
                     ai.forUserGameCancellation();
                     gameStats();
                 }
             } else if (colNum <= 4) {
-                int rowNum = ai.getGameObject().getObjectValue();
+                rowNum = ai.getAvatar().getObjectValue()-1;
                 final String resultValue = matrix[rowNum][colNum];
                 hasUserWin(resultValue);
                 if (matrix[rowNum].equals(matrix[colNum])) {
                     System.out.println("Tie!");
                     gameStats();
+                    gameCounter++;
                 }
-                gameCounter++;
             }
             return true;
         }
@@ -69,6 +71,7 @@ public class GameEvaluator {
     }
 
     public void evaluateGame() throws IOException {
+        boolean isExit = true;
         GameServices rpsGame = new GameServices();
         gameResource = getClass().getResourceAsStream("/inputData.txt");
         matrix = rpsGame.readFromInputStream(gameResource);
@@ -76,8 +79,12 @@ public class GameEvaluator {
         AI ai = new AI();
         setGameDefaultValues();
         System.out.println("Get started your adventure!!");
-        while (gameCounter < 10) {
-            gameLogic(user, ai);
+        while (isExit && gameCounter < 10) {
+            if(colNum == 8) {
+                isExit = false;
+            } else {
+                gameLogic(user, ai);
+            }
         }
     }
 }
