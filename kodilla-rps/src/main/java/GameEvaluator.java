@@ -30,6 +30,7 @@ public class GameEvaluator {
             colNum = user.getAvatar().getObjectValue() - 1;
         } catch (IllegalInputValueException e) {
             e.printStackTrace();
+            System.out.println("Try again!");
             user.getAvatar();
         }
             if (colNum > 4) {
