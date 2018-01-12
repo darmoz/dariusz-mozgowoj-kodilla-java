@@ -24,12 +24,13 @@ public class GameEvaluator {
         System.out.println("Actual AI Score: " + aiScore);
     }
 
-    private boolean gameLogic(User user, AI ai) throws IOException {
+    private boolean gameLogic(User user, AI ai) throws IOException, IllegalInputValueException {
 
         try {
             colNum = user.getAvatar().getObjectValue() - 1;
         } catch (IllegalInputValueException e) {
             e.printStackTrace();
+            user.getAvatar();
         }
             if (colNum > 4) {
                 if (colNum == 7) {
@@ -39,6 +40,7 @@ public class GameEvaluator {
                 } else if (colNum == 8) {
                     gameResource.close();
                     ai.forUserGameCancellation();
+                    gameCounter = gameCounter -1;
                     gameStats();
                 }
             } else if (colNum <= 4) {
@@ -70,7 +72,7 @@ public class GameEvaluator {
         return result;
     }
 
-    public void evaluateGame() throws IOException {
+    public void evaluateGame() throws IOException, IllegalInputValueException {
         boolean isExit = true;
         GameServices rpsGame = new GameServices();
         gameResource = getClass().getResourceAsStream("/inputData.txt");

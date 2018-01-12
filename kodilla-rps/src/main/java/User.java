@@ -12,15 +12,18 @@ public class User implements  GameObject{
 
      public GameObjectValue getAvatar() throws IllegalInputValueException {
             System.out.println("\nChoose -> Dog: 1, Skeleton: 2, Knight: 3, Dragon: 4 or Magician: 5");
-            System.out.println("New Game: 8,  Exit Game: 9");
+            System.out.println("New Game: n,  Exit Game: x");
             userScanner = new Scanner(System.in);
             String userInput = userScanner.nextLine();
             for (GameObjectValue i : GameObjectValue.values()) {
-                 if (GameObjectValue.valueOf(Integer.parseInt(userInput)).name().equals(i.name())) {
+                if(userInput.matches(i.name())) {
+                    System.out.println("Option " + i.name() + " has been selected");
+                    return i;
+                } else if(String.valueOf(i.ordinal()+1).equals(userInput)) {
                     System.out.println("You selected " + i.name());
-                    result = i;
+                    return i;
                 }
             }
-            return result;
+            throw new IllegalInputValueException("You have typed illegal input value! Please try again.");
         }
 }
