@@ -7,4 +7,6 @@ include 'kodilla-patterns-singelton'
 include 'kodilla-patterns'
 include 'kodilla-jdbc'
 include 'kodilla-rps'
+include 'kodilla-sudoku'
+findProject(':kodilla-sudoku')?.name = 'sudoku'
 

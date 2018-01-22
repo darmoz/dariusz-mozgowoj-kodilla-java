@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class User implements  GameObject{
 
-    private GameObjectValue result;
     private Scanner userScanner;
 
     public User() {
