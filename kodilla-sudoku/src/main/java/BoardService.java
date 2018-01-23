@@ -1,8 +1,13 @@
+import com.sun.org.apache.xpath.internal.SourceTree;
+
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 public class BoardService {
 
     private SudokuRow sudokuRow;
+    private UserService userService;
     private SudokuBoard sudokuBoard;
     private int initialInput;
     private Scanner userScanner;
@@ -35,11 +40,49 @@ public class BoardService {
         }
     }
 
+
+    public void rowLoop() {
+        for (int row = 0; row < 1; row++) {
+
+            for (int column = 0; column < 9; column++) {
+
+                for (int possibleValueElement = 0; possibleValueElement < sudokuBoard.boardValues.get(row)
+                        .rowValues.get(column).possibleValues.size(); possibleValueElement++) {
+
+                    if (sudokuBoard.boardValues.get(row).rowValues.get(column).getValue() == -1) {
+
+                        for (int innerColumnIndexer = 0; innerColumnIndexer < 9; innerColumnIndexer++) {
+
+                            if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues
+                                    .get(possibleValueElement).equals(sudokuBoard.boardValues.get(row).rowValues
+                                            .get(innerColumnIndexer).getValue())) {
+
+                                removeListElementByValue(row, column, innerColumnIndexer);
+
+                            } else if(sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues
+                                    .contains(sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer)
+                                            .possibleValues))
+
+                            /*else if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues.size() == 1) {
+                                sudokuBoard.boardValues.get(row).rowValues.get(column).setValue(sudokuBoard.boardValues
+                                        .get(row).rowValues.get(column).possibleValues.get(0));*/
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     public SudokuBoard insertValues() throws IllegalInputValueException {
-        UserService userService = new UserService();
+        userService = new UserService();
         boolean stillPrepare = true;
         while (stillPrepare) {
-            if (userService.getMenu().name().equals("i")) {
+            String input = userService.getMenu().name();
+            if (input.equals("i")) {
                 System.out.println("Type 3 digits in a row: row number, column number, value f.ex 123");
                 userScanner = new Scanner(System.in);
                 initialInput = userScanner.nextInt();
@@ -49,6 +92,9 @@ public class BoardService {
                 sudokuBoard.boardValues.get(Integer.parseInt(String.valueOf(initialInput).substring(0, 1)) - 1)
                         .rowValues.get(Integer.parseInt(String.valueOf(initialInput).substring(1, 2)) - 1)
                         .possibleValues.clear();
+            } else if (input.equals("f")) {
+                rowLoop();
+                stillPrepare = false;
             } else {
                 stillPrepare = false;
             }
@@ -56,48 +102,16 @@ public class BoardService {
         return sudokuBoard;
     }
 
-    public void rowLoop() {
-        for (int row = 0; row < 1; row++) {
-            System.out.println();
-            for (int column = 0; column < 9; column++) {
-                if (sudokuBoard.boardValues.get(row).rowValues.get(column).getValue() == -1) {
-                    for (int possibleValueElement = 0; possibleValueElement < sudokuBoard.boardValues.get(row).rowValues
-                            .get(column).possibleValues.size(); possibleValueElement++) {
-                        if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues.size() > 1) {
-                            for (int innerColumnLoop = 0; innerColumnLoop < 9; innerColumnLoop++) {
-                                if(innerColumnLoop == column || sudokuBoard.boardValues.get(row).rowValues.get(innerColumnLoop).getValue()!=-1) {
-                                    continue;
-                                }
-                              /*  System.out.println("Possible Value Element" + sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues
-                                        .get(possibleValueElement));*/
-                                for (int innerPossibleElement = 0; innerPossibleElement < sudokuBoard.boardValues
-                                        .get(row).rowValues.get(innerColumnLoop).possibleValues.size(); innerPossibleElement++) {
 
-                                    /*System.out.println("Value from column " + innerColumnLoop + " " + sudokuBoard.boardValues.get(row).rowValues
-                                            .get(innerColumnLoop).getValue());*/
-                                    if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues
-                                            .get(possibleValueElement) == sudokuBoard.boardValues.get(row).rowValues
-                                            .get(innerColumnLoop).getValue()) {
-                                        sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues
-                                                .remove(sudokuBoard.boardValues.get(row).rowValues
-                                                        .get(sudokuBoard.boardValues.get(row).rowValues.indexOf(innerColumnLoop)).getValue());
-                                    } /*else if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues
-                                            .get(possibleValueElement) != sudokuBoard.boardValues.get(row).rowValues
-                                            .get(innerColumnLoop).possibleValues.get(innerPossibleElement)) {
-                                        sudokuBoard.boardValues.get(row).rowValues.get(column).setValue(sudokuBoard.boardValues.get(row)
-                                                .rowValues.get(column).possibleValues.get(possibleValueElement));
-                                    }*/
-                                }
 
-                            }
-                        } else if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues.size() == 1) {
-                            sudokuBoard.boardValues.get(row).rowValues.get(column).setValue(sudokuBoard.boardValues
-                                    .get(row).rowValues.get(column).possibleValues.get(0));
-                        }
-                    }
-                }
+    private void removeListElementByValue(int row, int column, int innerColumnIndexer) {
+        Iterator<Integer> iterator = sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues.iterator();
+        while(iterator.hasNext()) {
+            Integer index = iterator.next();
+            if(index == sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer).getValue()) {
+                iterator.remove();
             }
-        }
+         }
     }
 }
 

@@ -19,4 +19,6 @@ public class UserService implements SudokuMenu {
         }
         throw new IllegalInputValueException("You have typed illegal input value! Please try again.");
     }
+
+
 }
