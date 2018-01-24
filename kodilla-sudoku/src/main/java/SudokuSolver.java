@@ -14,6 +14,9 @@ public class SudokuSolver {
         boardService.printBoard();
         System.out.println();
         System.out.println(workingBoard.boardValues.get(0).rowValues.get(0).possibleValues);
+        System.out.println(workingBoard.boardValues.get(0).rowValues.get(2).possibleValues);
+        System.out.println(workingBoard.boardValues.get(1).rowValues.get(2).possibleValues);
+        System.out.println(workingBoard.boardValues.get(1).rowValues.get(1).possibleValues);
 
     }
 }
