@@ -1,7 +1,4 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 
 public class BoardService {
@@ -41,7 +38,7 @@ public class BoardService {
     }
 
 
-    public void rowLoop() {
+    private void rowLoop() {
         for (int row = 0; row < 9; row++) {
 
             for (int column = 0; column < 9; column++) {
@@ -79,7 +76,7 @@ public class BoardService {
         }
     }
 
-    public void columnLoop() {
+    private void columnLoop() {
         for (int column = 0; column < 9; column++) {
 
             for (int row = 0; row < 9; row++) {
@@ -116,7 +113,7 @@ public class BoardService {
     }
 
 
-    public void sectionLoop() {
+    private void sectionLoop() {
         int section = 0;
         int sectionRow;
         int sectionColumn;
@@ -125,7 +122,7 @@ public class BoardService {
             if (section < 3) {
                 sectionRow = 0;
                 sectionColumn = 0;
-            } else if (section > 2 && section < 6) {
+            } else if (section < 6) {
                 sectionRow = 3;
                 sectionColumn = 3;
             } else {
@@ -144,6 +141,17 @@ public class BoardService {
                             if (sectionIndex == sudokuBoard.boardValues.get(row).rowValues.get(innerSectionCellIndexer).getValue()) {
                                 sectionIterator.remove();
 
+                            } else if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues.size() == 1) {
+                                sudokuBoard.boardValues.get(row).rowValues.get(column).setValue(sudokuBoard.boardValues
+                                        .get(row).rowValues.get(column).possibleValues.get(0));
+
+                            } else if(!sudokuBoard.boardValues.get(row).rowValues.get(innerSectionCellIndexer)
+                                    .possibleValues.contains(sectionIndex)
+                                    &&  sectionIndex == sudokuBoard.boardValues.get(row).rowValues.get(innerSectionCellIndexer)
+                                    .getValue()) {
+                                System.out.println(sudokuBoard.boardValues.get(row).rowValues.get(innerSectionCellIndexer)
+                                        .possibleValues + " " + row + " " + column + " " + innerSectionCellIndexer
+                                        + " " + sectionIndex);
                             }
                         }
                     }
