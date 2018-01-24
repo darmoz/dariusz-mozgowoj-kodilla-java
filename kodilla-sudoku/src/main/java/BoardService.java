@@ -61,9 +61,7 @@ public class BoardService {
 
                                 } else if(!sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer)
                                         .possibleValues.contains(index)
-                                        && /*!sudokuBoard.boardValues.get(row).rowValues
-                                        .get(innerColumnIndexer).possibleValues.isEmpty()
-                                        &&*/ index == sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer)
+                                        && index == sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer)
                                         .getValue()) {
                                     System.out.println(sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer)
                                             .possibleValues + " " + row + " " + column + " " + innerColumnIndexer
@@ -114,52 +112,43 @@ public class BoardService {
 
 
     private void sectionLoop() {
-        int section = 0;
-        int sectionRow;
-        int sectionColumn;
+        int tempRowValue = 0;
+        int tempColumnValue = 0;
+        for(int sectionRow=0; sectionRow<1; sectionRow++) {
+            for(int sectionColumn=0; sectionColumn<3; sectionColumn++) {
+                for(int innerSectionRow=tempRowValue; innerSectionRow<tempRowValue +3; innerSectionRow++) {
+                    for(int innerSectionColumn=tempColumnValue; innerSectionColumn<tempColumnValue+3; innerSectionColumn++) {
+                        Iterator<Integer> iterator = sudokuBoard.boardValues.get(innerSectionRow).rowValues
+                                .get(innerSectionColumn).possibleValues.iterator();
+                        if (sudokuBoard.boardValues.get(innerSectionRow).rowValues.get(innerSectionColumn).getValue() == -1) {
 
-        while (section < 9) {
-            if (section < 3) {
-                sectionRow = 0;
-                sectionColumn = 0;
-            } else if (section < 6) {
-                sectionRow = 3;
-                sectionColumn = 3;
-            } else {
-                sectionRow = 6;
-                sectionColumn = 6;
-            }
-            for (int row = sectionRow; row < sectionRow + 3; row++) {
-                for (int column = sectionColumn; column < sectionColumn + 3; column++) {
-                    Iterator<Integer> sectionIterator = sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues.iterator();
+                            while (iterator.hasNext()) {
+                                Integer index = iterator.next();
 
-                    while (sectionIterator.hasNext()) {
-                        Integer sectionIndex = sectionIterator.next();
+                                for (int innerRowIndexer = 0; innerRowIndexer < 3; innerRowIndexer++) {
+                                    for(int innerColumnIndexer =0; innerColumnIndexer<3; innerColumnIndexer++) {
+                                        System.out.println(index + " " + sudokuBoard.boardValues.get(innerRowIndexer).rowValues.get(innerColumnIndexer).getValue() + " " + innerSectionRow + " " + innerSectionColumn + " " + innerRowIndexer + " " + innerColumnIndexer );
 
-                        for (int innerSectionCellIndexer = 0; innerSectionCellIndexer < 9; innerSectionCellIndexer++) {
+                                        if (index == sudokuBoard.boardValues.get(innerRowIndexer).rowValues.get(innerColumnIndexer).getValue()) {
+                                            iterator.remove();
 
-                            if (sectionIndex == sudokuBoard.boardValues.get(row).rowValues.get(innerSectionCellIndexer).getValue()) {
-                                sectionIterator.remove();
-
-                            } else if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues.size() == 1) {
-                                sudokuBoard.boardValues.get(row).rowValues.get(column).setValue(sudokuBoard.boardValues
-                                        .get(row).rowValues.get(column).possibleValues.get(0));
-
-                            } else if(!sudokuBoard.boardValues.get(row).rowValues.get(innerSectionCellIndexer)
-                                    .possibleValues.contains(sectionIndex)
-                                    &&  sectionIndex == sudokuBoard.boardValues.get(row).rowValues.get(innerSectionCellIndexer)
-                                    .getValue()) {
-                                System.out.println(sudokuBoard.boardValues.get(row).rowValues.get(innerSectionCellIndexer)
-                                        .possibleValues + " " + row + " " + column + " " + innerSectionCellIndexer
-                                        + " " + sectionIndex);
+                                        }
+                                    }
+                                }
                             }
                         }
+
                     }
+
                 }
-                section += 1;
+
             }
         }
     }
+
+
+
+
 
 
     public SudokuBoard insertValues() throws IllegalInputValueException {
