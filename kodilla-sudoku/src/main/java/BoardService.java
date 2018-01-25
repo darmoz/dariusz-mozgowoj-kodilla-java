@@ -9,13 +9,13 @@ public class BoardService {
     private int initialInput;
     private Scanner userScanner;
 
-
     public SudokuBoard printInitBoard() {
         sudokuBoard = new SudokuBoard();
         for (int row = 0; row < 9; row++) {
             sudokuRow = new SudokuRow();
             sudokuBoard.boardValues.add(sudokuRow);
             System.out.println();
+
             for (int element = 0; element < 9; element++) {
                 sudokuRow.rowValues.add(new SudokuElement(SudokuElement.EMPTY));
                 System.out.print("| " + " |");
@@ -25,9 +25,12 @@ public class BoardService {
     }
 
     public void printBoard() {
+
         for (int row = 0; row < 9; row++) {
             System.out.println();
+
             for (int column = 0; column < 9; column++) {
+
                 if (sudokuBoard.boardValues.get(row).rowValues.get(column).getValue() == -1) {
                     System.out.print("| " + " |");
                 } else {
@@ -36,7 +39,6 @@ public class BoardService {
             }
         }
     }
-
 
     private void rowLoop() {
         for (int row = 0; row < 9; row++) {
@@ -52,21 +54,19 @@ public class BoardService {
 
                         for (int innerColumnIndexer = 0; innerColumnIndexer < 9; innerColumnIndexer++) {
 
-                                if (index == sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer).getValue()) {
+                            if (index == sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer).getValue()) {
                                     iterator.remove();
 
-                                } else if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues.size() == 1) {
+                            } else if (sudokuBoard.boardValues.get(row).rowValues.get(column).possibleValues.size() == 1) {
                                     sudokuBoard.boardValues.get(row).rowValues.get(column).setValue(sudokuBoard.boardValues
                                             .get(row).rowValues.get(column).possibleValues.get(0));
 
-                                } else if(!sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer)
+                            } else if(!sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer)
                                         .possibleValues.contains(index)
                                         && index == sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer)
                                         .getValue()) {
-                                    System.out.println(sudokuBoard.boardValues.get(row).rowValues.get(innerColumnIndexer)
-                                            .possibleValues + " " + row + " " + column + " " + innerColumnIndexer
-                                            + " " + index);
-                                }
+                                    sudokuBoard.boardValues.get(row).rowValues.get(column).setValue(index);
+                            }
                         }
                     }
                 }
@@ -99,9 +99,7 @@ public class BoardService {
                                     .possibleValues.contains(index)
                                     &&  index == sudokuBoard.boardValues.get(row).rowValues.get(innerRowIndexer)
                                     .getValue()) {
-                                System.out.println(sudokuBoard.boardValues.get(row).rowValues.get(innerRowIndexer)
-                                        .possibleValues + " " + row + " " + column + " " + innerRowIndexer
-                                        + " " + index);
+                                sudokuBoard.boardValues.get(row).rowValues.get(column).setValue(index);
                             }
                         }
                     }
@@ -110,24 +108,27 @@ public class BoardService {
         }
     }
 
-
     private void sectionLoop() {
-        int tempRowValue = 0;
-        int tempColumnValue = 0;
-        for(int sectionRow=0; sectionRow<1; sectionRow++) {
+
+        for(int sectionRow=0; sectionRow<3; sectionRow++) {
+
             for(int sectionColumn=0; sectionColumn<3; sectionColumn++) {
-                for(int innerSectionRow=tempRowValue; innerSectionRow<tempRowValue +3; innerSectionRow++) {
-                    for(int innerSectionColumn=tempColumnValue; innerSectionColumn<tempColumnValue+3; innerSectionColumn++) {
+
+                for(int innerSectionRow=sectionRow*3; innerSectionRow<sectionRow*3+3; innerSectionRow++) {
+
+                    for(int innerSectionColumn=sectionColumn*3; innerSectionColumn<sectionColumn*3+3; innerSectionColumn++) {
+
                         Iterator<Integer> iterator = sudokuBoard.boardValues.get(innerSectionRow).rowValues
                                 .get(innerSectionColumn).possibleValues.iterator();
+
                         if (sudokuBoard.boardValues.get(innerSectionRow).rowValues.get(innerSectionColumn).getValue() == -1) {
 
                             while (iterator.hasNext()) {
                                 Integer index = iterator.next();
 
-                                for (int innerRowIndexer = 0; innerRowIndexer < 3; innerRowIndexer++) {
-                                    for(int innerColumnIndexer =0; innerColumnIndexer<3; innerColumnIndexer++) {
-                                        System.out.println(index + " " + sudokuBoard.boardValues.get(innerRowIndexer).rowValues.get(innerColumnIndexer).getValue() + " " + innerSectionRow + " " + innerSectionColumn + " " + innerRowIndexer + " " + innerColumnIndexer );
+                                for (int innerRowIndexer = sectionRow*3; innerRowIndexer <sectionRow*3+3; innerRowIndexer++) {
+
+                                    for(int innerColumnIndexer =sectionColumn*3; innerColumnIndexer<sectionColumn*3+3; innerColumnIndexer++) {
 
                                         if (index == sudokuBoard.boardValues.get(innerRowIndexer).rowValues.get(innerColumnIndexer).getValue()) {
                                             iterator.remove();
@@ -137,19 +138,11 @@ public class BoardService {
                                 }
                             }
                         }
-
                     }
-
                 }
-
             }
         }
     }
-
-
-
-
-
 
     public SudokuBoard insertValues() throws IllegalInputValueException {
         userService = new UserService();
