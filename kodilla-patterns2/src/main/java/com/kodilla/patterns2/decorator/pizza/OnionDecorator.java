@@ -8,7 +8,7 @@ public class OnionDecorator extends AbstractPizzaOrderDecorator {
     }
     @Override
     public BigDecimal orderCost() {
-        return super.orderCost().add(new BigDecimal(1));
+        return super.orderCost().add(new BigDecimal(2));
     }
 
     @Override

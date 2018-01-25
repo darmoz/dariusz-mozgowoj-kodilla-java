@@ -46,17 +46,18 @@ public class PizzaOrderTestSuite {
     public void testPizzaXXLJalapenoCornOnionMushroomDrink() {
         //Given
         PizzaOrder thePizza = new SimpleMargerittaOrder();
-        thePizza = new ExtraSizeDecorator(thePizza);
         thePizza = new JalaphenoDecorator(thePizza);
         thePizza = new CornDecorator(thePizza);
         thePizza = new OnionDecorator(thePizza);
         thePizza = new MushroomDecorator(thePizza);
+        thePizza = new ExtraSizeDecorator(thePizza);
         thePizza = new DrinkDecorator(thePizza);
+
         //When
         BigDecimal totalPrice = thePizza.orderCost();
         String description = thePizza.pizzaDescriptor();
         //Then
-        assertEquals(new BigDecimal(40), totalPrice);
-        assertEquals("Simple Margherita (souse + cheese)+[XXL size]+[jalapeno]+[corn]+[onion]+[mushrooms]+[drink]", description);
+        assertEquals(new BigDecimal(52), totalPrice);
+        assertEquals("Simple Margherita (souse + cheese)+[jalapeno]+[corn]+[onion]+[mushrooms]+[XXL size]+[drink]", description);
     }
 }
