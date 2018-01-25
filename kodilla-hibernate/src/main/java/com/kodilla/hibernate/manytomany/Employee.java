@@ -4,11 +4,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-
-@NamedQuery(
-        name = "Employee.findLastName",
-        query = "FROM Employee WHERE lastName = :LASTNAME"
-)
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "Employee.findLastName",
+        query = "SELECT * FROM Employees WHERE lastname = :LASTNAME",
+        resultClass = Employee.class
+),
+        @NamedNativeQuery(name = "Employee.findEmployeesByAnyMatch",
+                query = "SELECT * FROM Employees WHERE lastname  LIKE CONCAT('%', :LETTERS, '%')",
+                resultClass = Employee.class
+        )
+})
 
 @Entity
 @Table(name = "EMPLOYEES")
