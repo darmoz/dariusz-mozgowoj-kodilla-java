@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,23 +21,29 @@ public class ManyToManyFacadeTestSuite {
     @Test
     public void testFacadeCompanySearchByMatch() throws QueryProcessingException {
         //Given
-        //manyToManyFacade.createDataBaseEntries();
+        TestInputData inputData = new TestInputData();
+        inputData.createDataBaseEntries();
         //When
         List<Company> result = manyToManyFacade.processCompanyQueries("chin");
         //Then
         Assert.assertEquals(1, result.size());
+        //Cleanup
+        inputData.deleteTestInput();
 
     }
 
     @Test
     public void testFacadeEmployeeSearchByMatch() throws QueryProcessingException {
         //Given
-        //manyToManyFacade.createDataBaseEntries();
+        TestInputData inputData = new TestInputData();
+        inputData.createDataBaseEntries();
         //When
         ///List<Employee> result = manyToManyFacade.processEmployeeQueries("oval");
         List<Employee> result = manyToManyFacade.processEmployeeQueries("mit");
         //Then
         Assert.assertEquals(1, result.size());
+        //Cleanup
+        inputData.deleteTestInput();
 
     }
 
