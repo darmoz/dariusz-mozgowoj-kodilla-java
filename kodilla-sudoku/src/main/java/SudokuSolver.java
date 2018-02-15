@@ -4,16 +4,10 @@ import java.util.Iterator;
 public class SudokuSolver {
 
     public static void main(String[] args) {
-        BoardService boardService = new BoardService();
-        SudokuBoard workingBoard = boardService.printInitBoard();
-        try {
-            boardService.insertValues();
-        } catch (IllegalInputValueException e) {
-            e.printStackTrace();
-        };
-        boardService.printBoard();
+        SudokuProcess sudokuProcess = new SudokuProcess();
+        SudokuBoard workingBoard = sudokuProcess.processSudoku();
         System.out.println();
         System.out.println(workingBoard.boardValues.get(0).rowValues.get(0).possibleValues);
-        System.out.println(workingBoard.boardValues.get(0).rowValues.get(3).possibleValues);
+        System.out.println(workingBoard.boardValues.get(0).rowValues.get(7).possibleValues);
     }
 }
